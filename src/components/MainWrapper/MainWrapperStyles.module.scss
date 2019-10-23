@@ -1,0 +1,19 @@
+.MainWrapper {
+  
+  margin: 0 auto;
+  margin-top: 20px;
+  width: 40%;
+  height: 400px;
+  border: 1px solid black;
+
+  .SeachBlock {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-top: 20px;
+  };
+
+  .MainWrapperSearchBox {
+    margin-left: 20px;
+  }
+};
