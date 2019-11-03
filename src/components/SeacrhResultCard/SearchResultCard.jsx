@@ -4,6 +4,7 @@ import styles from './SearchResultStyles.module.scss';
 
 const SeacrhResultCard = ({ location }) => {
 
+  // Function that renders specific span based on the type of location
   const checkTypeOfLocation = locationName => {
     if(locationName.includes('Station')) return (<span className={cx(styles.CardType, styles.Station)}>Station</span>);
     if(locationName.includes('Airport')) return (<span className={cx(styles.CardType, styles.Airport)}>Airport</span>);

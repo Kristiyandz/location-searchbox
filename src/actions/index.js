@@ -21,12 +21,27 @@ export const fetchLocations = searchTerm => async dispatch => {
   dispatch(loadingLocations());
   try {
     const response = await axios.get(`https://www.rentalcars.com/FTSAutocomplete.do?solrIndex=fts_en&solrRows=6&solrTerm=${searchTerm}`);
-    console.log(response, 'RESPONSE')
+
+    if(response.data.results.docs.length === 0) {
+      return dispatch(loadingLocationsFail());
+    };
     if(response.status === 200) {
-      return dispatch(loadingLocationsSuccess(response.data))
+      return dispatch(loadingLocationsSuccess(response.data));
     }
     return dispatch(loadingLocationsFail());
   } catch(err) {
     console.log(err);
   }
 };
+
+export const CLEAR_LOACTIONS_DATA = 'CLEAR_LOACTIONS_DATA';
+export const clearLocations = () => ({
+  type: CLEAR_LOACTIONS_DATA,
+  payload: [],
+});
+
+export const SET_SELECTED_LOCATION = 'SET_SELECTED_LOCATION';
+export const setSelectedLocation = location => ({
+  type: SET_SELECTED_LOCATION,
+  payload: location,
+});
