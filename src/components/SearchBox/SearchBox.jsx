@@ -1,70 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Select } from 'antd';
+import SeacrhResultCard from '../SeacrhResultCard/SearchResultCard';
+import { fetchLocations as fetchLocationsAction } from '../../actions/index';
 import 'antd/dist/antd.css';
 import styles from './SearchBoxStyles.module.scss';
 
+const { Option } = Select
 
-const { Option } = Select;
-
-let timeout;
-let currentValue;
-
-// function fetch(value, callback) {
-//   if (timeout) {
-//     clearTimeout(timeout);
-//     timeout = null;
-//   }
-//   currentValue = value;
-
-//   function fake() {
-//     const str = querystring.encode({
-//       code: 'utf-8',
-//       q: value,
-//     });
-//     jsonp(`https://suggest.taobao.com/sug?${str}`)
-//       .then(response => response.json())
-//       .then(d => {
-//         if (currentValue === value) {
-//           const { result } = d;
-//           const data = [];
-//           result.forEach(r => {
-//             data.push({
-//               value: r[0],
-//               text: r[0],
-//             });
-//           });
-//           callback(data);
-//         }
-//       });
-//   }
-
-//   timeout = setTimeout(fake, 300);
-// }
-
-class SearchInput extends React.Component {
-  state = {
-    data: [],
-    value: undefined,
-  };
+class SearchInput extends Component {
 
   handleSearch = value => {
-    if (value) {
-      fetch(value, data => this.setState({ data }));
-    } else {
-      this.setState({ data: [] });
+    if(value.length === 0 || value.length === 0) {
+      return;
     }
-  };
+    this.props.searchInput(value)
+  }
 
-  handleChange = value => {
-    this.setState({ value });
-  };
+  testFunc = () => {
+    console.log('called')
+  }
+
+
+  setValue = () => {
+    this.setState({
+      value: 'selected'
+    });
+  }
 
   render() {
-    const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
+    const options = this.props.locations.map(location => (
+        <Option
+          className={styles.DropdownItem}
+          value="Yiminghe">
+          {<SeacrhResultCard location={location}/>}
+        </Option>
+      )
+    );
     return (
       <Select
         showSearch
-        value={this.state.value}
         placeholder="city, airport, station, region, district..."
         className={styles.SearchBox}
         defaultActiveFirstOption={false}
@@ -73,6 +48,8 @@ class SearchInput extends React.Component {
         onSearch={this.handleSearch}
         onChange={this.handleChange}
         notFoundContent={null}
+        onSelect={this.setValue}
+        loading={this.props.isLoading}
       >
         {options}
       </Select>
@@ -80,4 +57,13 @@ class SearchInput extends React.Component {
   }
 }
 
-export default SearchInput;
+const mapDispatchToProps = dispatch => ({
+  searchInput: searchTerm => dispatch(fetchLocationsAction(searchTerm)),
+});
+
+const mapStateToProps = state => ({
+  isLoading: state.loactionsData.isLoading,
+  locations: state.loactionsData.locations,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchInput);

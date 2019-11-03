@@ -1,0 +1,54 @@
+.SeacrhResultCard {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+  height: 50px;
+  border-bottom: 1px solid rgba(129, 120, 120, 0.3);
+  background-color: white;
+  &:hover {
+    background-color: #E7F4FE;;
+  }
+
+  .CardType {
+    align-self: center;
+    text-align: center;
+    margin-left: 5px;
+    background-color: red;
+    width: 60px;
+    height: auto;
+    border-radius: 3px;
+    font-size: 12px;
+    color: white;
+  }
+
+  .Station {
+    background-color: grey;
+  }
+
+  .Airport {
+    background-color: red;
+  }
+
+  .City {
+    background-color: blue;
+  }
+  .LocationInfo {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    
+  };
+
+  h4 {
+    margin-bottom: 0;
+    padding: 0;
+  }
+  p {
+    margin: 0;
+    margin-top: -10px;
+    padding: 0;
+  }
+ 
+}
